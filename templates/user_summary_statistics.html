@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">User Summary Statistics</h1>
+
+    <div class="mt-4">
+        <h3>Statistics for {{ user.full_name }}</h3>
+        <ul>
+            <li><strong>Total Attempts:</strong> {{ summary_stats.total_attempts }}</li>
+            <li><strong>Highest Score:</strong> {{ summary_stats.highest_score }}</li>
+            <li><strong>Average Score:</strong> {{ summary_stats.average_score }}</li>
+        </ul>
+    </div>
+
+    <!-- Chart for Visualizing Scores -->
+    <div class="mt-5">
+        <h4>Score Distribution</h4>
+        <canvas id="scoreChart"></canvas>
+    </div>
+</div>
+
+<!-- Include Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Chart.js configuration
+    const ctx = document.getElementById('scoreChart').getContext('2d');
+    const scoreChart = new Chart(ctx, {
+        type: 'bar', // Type of chart (bar)
+        data: {
+            labels: {{ labels|safe }}, // Last 3 Quiz Names
+            datasets: [{
+                label: 'Scores',
+                data: {{ scores|safe }}, // Scores for the last 3 quizzes
+                backgroundColor: 'rgba(54, 162, 235, 0.5)', // Bar color
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: true },
+                title: { display: true, text: 'User Score Distribution (Last 3 Quizzes)' }
+            },
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+</script>
+{% endblock %}

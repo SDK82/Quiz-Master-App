@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Page for Adding Chapters for Each Subject -->
+
+<div class="container mt-5">
+    <!-- Display Subject Name -->
+    <h1 class="text-center">Add Chapters for Subject: {{ subject.name }}</h1>
+
+    <!-- Create Chapter Form -->
+    <div class="chapter-form-container mt-4">
+        <form method="POST">
+            <div class="form-group">
+                <label for="name">Chapter Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter Chapter Name" required>
+            </div>
+            <div class="form-group mt-3">
+                <label for="description">Chapter Description</label>
+                <textarea class="form-control" id="description" name="description" placeholder="Enter Chapter Description"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Add Chapter</button>
+        </form>
+    </div>
+
+    <!-- Display Existing Chapters -->
+    <div class="mt-5">
+        <h2 class="text-center chapter-heading">Existing Chapters</h2>
+        <div class="row justify-content-center mt-4">
+            {% for chapter in chapters %}
+            <div class="col-md-4 col-sm-6 col-12 mb-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="{{ url_for('create_quiz', chapter_id=chapter.id) }}" class="text-dark text-decoration-none">
+                                {{ chapter.name }}
+                            </a>
+                        </h5>
+                        <p class="card-text">
+                            {{ chapter.description if chapter.description else "No description available." }}
+                        </p>
+                    </div>
+                    <!-- Edit and Delete Buttons -->
+                    <div class="card-footer text-right">
+                        <a href="{{ url_for('edit_chapter', chapter_id=chapter.id) }}" class="btn btn-warning btn-sm mr-2">Edit</a>
+                        <form action="{{ url_for('delete_chapter', chapter_id=chapter.id) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

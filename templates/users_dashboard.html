@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Welcome {{ full_name }}</h1>
+    <div class="text-center mt-4">
+        <p>Welcome to your personalized dashboard. Explore the quizzes and track your progress!</p>
+    </div>
+
+    <div class="d-flex justify-content-center align-items-center mt-5">
+        <!-- All Subjects Dropdown -->
+        <div class="dropdown me-3">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="subjectsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                All Subjects
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="subjectsDropdown">
+                {% for subject in subjects %}
+                <li><a class="dropdown-item" href="{{ url_for('subject_chapters', subject_id=subject.id) }}">{{ subject.name }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        
+        <!-- Summary Statistics Button (Updated to link to user summary statistics page) -->
+        <div>
+            <a href="{{ url_for('user_summary_statistics', user_id=user.id) }}" class="btn btn-info">Summary Statistics</a>
+        </div>
+    </div>
+
+    <!-- New Section for Completed Quizzes -->
+    <div class="container mt-5">
+        <h2 class="text-center">Completed Quizzes</h2>
+        <div class="row mt-4">
+            {% if completed_quizzes %}
+                {% for quiz_response in completed_quizzes %}
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5>{{ quiz_response.quiz.name }}</h5>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Date Completed:</strong> {{ quiz_response.time_stamp_of_attempt.strftime('%d-%m-%Y %H:%M') }}</p>
+                            <p><strong>Score:</strong> {{ quiz_response.total_scored }} / {{ quiz_response.quiz.total_marks }}</p>
+                        </div>
+                        <div class="card-footer text-center">
+                            <a href="{{ url_for('quiz_result', quiz_response_id=quiz_response.id) }}" class="btn btn-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-center">No quizzes completed yet.</p>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+
+<!-- Modal for Summary Statistics -->
+<div class="modal fade" id="summaryStatsModal" tabindex="-1" aria-labelledby="summaryStatsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="summaryStatsModalLabel">Summary Statistics</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <ul>
+                    <li><strong>Average Score:</strong> {{ average_score }}</li>
+                    <li><strong>Highest Score:</strong> {{ highest_score }}</li>
+                    <li><strong>Total Attempts:</strong> {{ total_attempts }}</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

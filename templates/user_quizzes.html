@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- This page shows the users details when admin click on specific users Action 
+ Route : @ user_quizzes-->
+
+
+<h1 class="text-center">{{ user.full_name }}'s Quizzes</h1>
+
+<div class="container mt-5">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Quiz Name</th>
+                <th>Date Attempted</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if quizzes_with_results %}
+                {% for quiz_result in quizzes_with_results %}
+                <tr>
+                    <td>{{ quiz_result.quiz_name }}</td>
+                    <td>{{ quiz_result.date }}</td>
+                    <td>{{ quiz_result.score }}</td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="3" class="text-center">No quizzes attempted yet.</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

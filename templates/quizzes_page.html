@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">{{ chapter.name }} - Quizzes</h1>
+    <div class="text-center mt-4">
+        <p>Explore quizzes for this chapter.</p>
+    </div>
+
+    <!-- Display Quizzes -->
+    <div class="row mt-5">
+        {% for quiz in quizzes %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ quiz.name }}</h5>
+                    <p class="card-text">{{ quiz.description }}</p>
+                    <a href="{{ url_for('take_quiz', quiz_id=quiz.id) }}" class="btn btn-success">Take Quiz</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

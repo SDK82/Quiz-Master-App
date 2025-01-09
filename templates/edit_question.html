@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Edit Question</h1>
+
+    <form method="POST" class="mt-4">
+        <div class="form-group">
+            <label for="question_statement">Question Statement</label>
+            <textarea class="form-control" id="question_statement" name="question_statement" required>{{ question.question_statement }}</textarea>
+        </div>
+        <div class="form-group mt-3">
+            <label for="option1">Option 1</label>
+            <input type="text" class="form-control" id="option1" name="option1" value="{{ question.option1 }}" required>
+        </div>
+        <div class="form-group mt-3">
+            <label for="option2">Option 2</label>
+            <input type="text" class="form-control" id="option2" name="option2" value="{{ question.option2 }}" required>
+        </div>
+        <div class="form-group mt-3">
+            <label for="option3">Option 3</label>
+            <input type="text" class="form-control" id="option3" name="option3" value="{{ question.option3 }}">
+        </div>
+        <div class="form-group mt-3">
+            <label for="option4">Option 4</label>
+            <input type="text" class="form-control" id="option4" name="option4" value="{{ question.option4 }}">
+        </div>
+        <div class="form-group mt-3">
+            <label for="correct_option">Correct Option</label>
+            <select class="form-control" id="correct_option" name="correct_option" required>
+                <option value="option1" {% if question.correct_option == "option1" %}selected{% endif %}>Option 1</option>
+                <option value="option2" {% if question.correct_option == "option2" %}selected{% endif %}>Option 2</option>
+                <option value="option3" {% if question.correct_option == "option3" %}selected{% endif %}>Option 3</option>
+                <option value="option4" {% if question.correct_option == "option4" %}selected{% endif %}>Option 4</option>
+            </select>
+        </div>
+        <div class="form-group mt-3">
+            <label for="marks">Marks</label>
+            <input type="number" class="form-control" id="marks" name="marks" value="{{ question.marks }}" required>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+        <a href="{{ url_for('add_questions', quiz_id=question.quiz_id) }}" class="btn btn-secondary mt-3">Cancel</a>
+    </form>
+</div>
+{% endblock %}

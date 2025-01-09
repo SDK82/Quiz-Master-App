@@ -1,0 +1,439 @@
+/* --------------------------------------
+   Base Page Styles (for global page layout)
+---------------------------------------- */
+
+/* Body and HTML Styling */
+body, html {
+    height: 100%;
+    margin: 0;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Video Background Styling */
+.background-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    
+}
+
+.background-overlay video {
+    object-fit: cover; /* Ensures the video covers the entire background */
+    width: 100%;
+    height: 100%;
+    opacity: 0.8;
+}
+
+/* Container Styling (used for the content above background) */
+.container {
+    margin-top: 14px;
+    position: relative;
+    z-index: 1; /* Ensures content is above the background */
+    color: white;
+}
+
+/* --------------------------------------
+   Button Styles for Base Page (Global use)
+---------------------------------------- */
+
+/* General Button Styling */
+.btn-custom {
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 10px 20px;
+    margin: 10px;
+    border-radius: 25px;
+    border: none;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* Primary Button Style */
+.btn-custom-primary {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    color: white;
+}
+
+.btn-custom-primary:hover {
+    background: linear-gradient(45deg, #0056b3, #003f7d);
+    transform: scale(1.1);
+}
+
+/* Secondary Button Style */
+.btn-custom-secondary {
+    background: linear-gradient(45deg, #6c757d, #343a40);
+    color: white;
+}
+
+.btn-custom-secondary:hover {
+    background: linear-gradient(45deg, #343a40, #212529);
+    transform: scale(1.1);
+}
+
+/* Outline Danger Button Style */
+.btn-custom-outline-danger {
+    border: 2px solid #dc3545;
+    color: #dc3545;
+}
+
+.btn-custom-outline-danger:hover {
+    background: #dc3545;
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Outline Primary Button Style */
+.btn-custom-outline-primary {
+    border: 2px solid #007bff;
+    color: #007bff;
+}
+
+.btn-custom-outline-primary:hover {
+    background: #007bff;
+    color: white;
+    transform: scale(1.1);
+}
+
+
+/* ================================================================================ */
+/* Importing the "Caveat" font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap');
+
+/* Container Styling for Login Forms */
+.container-login {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 40px;
+    background-color: rgba(255, 255, 255, 0.9); /* Slightly opaque background */
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 2;
+    margin-top: 50px; /* Adjust the top margin to position the form nicely */
+}
+
+/* Heading Style for Login Forms */
+h2 {
+    font-family: 'Caveat', cursive; /* Apply "Caveat" font for the heading */
+    font-size: 2rem;
+    text-align: center;
+    color: black; /* Font color changed to black */
+    margin-bottom: 30px;
+}
+
+/* Form Input Fields */
+.form-control {
+    font-family: 'Caveat', cursive; /* Apply "Caveat" font to input fields */
+    font-size: 1rem;
+    padding: 12px;
+    border-radius: 25px;
+    border: 2px solid #ccc;
+    color: black; /* Text color for username and password */
+    transition: all 0.3s ease-in-out;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
+}
+
+/* Username and Password Field Labels */
+label {
+    font-family: 'Caveat', cursive; /* Apply "Caveat" font to labels */
+    font-size: 1.1rem;
+    color: black; /* Label text color set to black */
+}
+
+/* Login Button Styling */
+.btn-primary {
+    font-family: 'Arial', sans-serif; /* Font for the button (keeping it non-cursive) */
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    color: white;
+    border-radius: 25px;
+    padding: 12px 25px;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(45deg, #0056b3, #003f7d);
+    transform: scale(1.05);
+}
+
+/* =============================================================================== */
+/* Styling for Registration Form Container */
+.container-register {
+    background-color: rgba(255, 255, 255, 0.9); /* Slightly opaque background */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+/* Input fields within the Registration Form */
+.container-register .form-control {
+    font-size: 1rem;
+    padding: 12px;
+    border-radius: 25px;
+    border: 2px solid #ccc;
+    color: black;
+    transition: all 0.3s ease-in-out;
+}
+
+.container-register .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
+}
+
+/* Submit Button Styling within the Registration Form */
+.container-register .btn-primary {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    color: white;
+    border-radius: 25px;
+    padding: 12px 25px;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+}
+
+.container-register .btn-primary:hover {
+    background: linear-gradient(45deg, #0056b3, #003f7d);
+    transform: scale(1.05);
+}
+
+
+
+
+/* --------------------------------------
+   Admin Page Styles (for Admin Dashboard)
+---------------------------------------- */
+
+/* Search Bar Styling */
+.form-control {
+    font-size: 1rem;
+    padding: 10px;
+    border-radius: 25px;
+    border: 2px solid #ddd;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
+}
+
+/* Search Button Styling */
+.btn-primary {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    color: white;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(45deg, #0056b3, #003f7d);
+    transform: scale(1.05);
+}
+
+.admin-heading {
+    font-family: 'Caveat', cursive;
+    font-size: 2rem;
+    text-align: center;
+    color: rgb(250, 247, 247) ;
+    margin-bottom: 30px;
+}
+/* --------------------------------------
+   Card and Button Styles for Admin Page
+---------------------------------------- */
+
+/* Card Styling */
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(138, 122, 122, 0.1);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    background-color: #faf5f5;
+    position: relative;
+    overflow: hidden; /* Ensure no content overflows the card border */
+}
+
+.card:hover {
+    transform: translateY(-10px); /* Card lifts up */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Enhanced shadow for hover effect */
+}
+
+.card-body {
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f8f2f0;
+    position: relative;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.card-title:hover {
+    color: #47627f; /* Change color on hover */
+}
+
+.card-text {
+    color: #666;
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+/* Card Color Variants */
+
+/* Info Card */
+.card-info {
+    border-left: 5px solid #17a2b8; /* Blue left border */
+}
+
+.card-info .card-body {
+    background-color: #e9f7fa; /* Light blue background */
+}
+
+/* Success Card */
+.card-success {
+    border-left: 5px solid #28a745; /* Green left border */
+}
+
+.card-success .card-body {
+    background-color: #d4edda; /* Light green background */
+}
+
+/* Warning Card */
+.card-warning {
+    border-left: 5px solid #ffc107; /* Yellow left border */
+}
+
+.card-warning .card-body {
+    background-color: #fff3cd; /* Light yellow background */
+}
+
+/* Danger Card */
+.card-danger {
+    border-left: 5px solid #dc3545; /* Red left border */
+}
+
+.card-danger .card-body {
+    background-color: #f8d7da; /* Light red background */
+}
+
+/* Buttons inside Cards */
+.btn-sm {
+    font-size: 0.9rem;
+    padding: 6px 12px;
+    border-radius: 20px;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Edit and Delete Buttons inside Cards */
+.btn-outline-primary {
+    border-color: #007bff;
+    color: #007bff;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-outline-danger {
+    border-color: #dc3545;
+    color: #dc3545;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Create New Subject Button */
+.btn-info {
+    background: linear-gradient(45deg, #17a2b8, #007bff);
+    color: white;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+    display: inline-block;
+    text-align: center;
+    width: auto;
+}
+
+.btn-info:hover {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    transform: scale(1.05);
+}
+
+
+
+/* ================================================================================= */
+/* Chapter Form Container Styling */
+.chapter-form-container {
+    background-color: rgba(255, 255, 255, 0.9); /* Slightly opaque background */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 2;
+}
+
+/* Input fields within the Chapter Form */
+.chapter-form-container .form-control {
+    font-size: 1rem;
+    padding: 12px;
+    border-radius: 25px;
+    border: 2px solid #ccc;
+    color: black;
+    transition: all 0.3s ease-in-out;
+}
+
+.chapter-form-container .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
+}
+
+/* Submit Button Styling within the Chapter Form */
+.chapter-form-container .btn-primary {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    color: white;
+    border-radius: 25px;
+    padding: 12px 25px;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+}
+
+.chapter-form-container .btn-primary:hover {
+    background: linear-gradient(45deg, #0056b3, #003f7d);
+    transform: scale(1.05);
+}
+
+
+.chapter-heading{
+    font-family: 'Caveat', cursive;
+    font-size: 2rem;
+    text-align: center;
+    color: rgb(250, 247, 247) ;
+    margin-bottom: 30px;
+}

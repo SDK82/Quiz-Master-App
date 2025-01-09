@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Admin Summary Statistics</h1>
+
+    <div class="mt-4">
+        <h4>Subject-wise Quizzes</h4>
+        <div class="chart-container">
+            <canvas id="subjectChart"></canvas>
+        </div>
+    </div>
+
+    <div class="mt-5">
+        <h4>Chapter-wise Quizzes</h4>
+        <div class="chart-container">
+            <canvas id="chapterChart"></canvas>
+        </div>
+    </div>
+
+    <div class="mt-5">
+        <h4>Quiz Demand</h4>
+        <div class="chart-container">
+            <canvas id="quizChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- Include Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Custom CSS for smaller charts -->
+<style>
+    .chart-container {
+        width: 600px;
+        height: 400px;
+        margin: 0 auto; /* Center the charts */
+    }
+
+    canvas {
+        width: 100% !important;
+        height: 100% !important;
+    }
+</style>
+
+<script>
+    // Subject-wise Quizzes
+    const subjectCtx = document.getElementById('subjectChart').getContext('2d');
+    new Chart(subjectCtx, {
+        type: 'bar',
+        data: {
+            labels: {{ subject_labels|safe }},
+            datasets: [{
+                label: 'Number of Quizzes',
+                data: {{ subject_data|safe }},
+                backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: true },
+                title: { display: true, text: 'Quizzes per Subject' }
+            },
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+
+    // Chapter-wise Quizzes
+    const chapterCtx = document.getElementById('chapterChart').getContext('2d');
+    new Chart(chapterCtx, {
+        type: 'bar',
+        data: {
+            labels: {{ chapter_labels|safe }},
+            datasets: [{
+                label: 'Number of Quizzes',
+                data: {{ chapter_data|safe }},
+                backgroundColor: 'rgba(153, 102, 255, 0.5)',
+                borderColor: 'rgba(153, 102, 255, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: true },
+                title: { display: true, text: 'Quizzes per Chapter' }
+            },
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+
+    // Quiz Demand
+    const quizCtx = document.getElementById('quizChart').getContext('2d');
+    new Chart(quizCtx, {
+        type: 'pie',
+        data: {
+            labels: {{ quiz_labels|safe }},
+            datasets: [{
+                label: 'Number of Attempts',
+                data: {{ quiz_data|safe }},
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.5)',
+                    'rgba(54, 162, 235, 0.5)',
+                    'rgba(255, 206, 86, 0.5)',
+                    'rgba(75, 192, 192, 0.5)',
+                    'rgba(153, 102, 255, 0.5)',
+                    'rgba(255, 159, 64, 0.5)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: true },
+                title: { display: true, text: 'Quiz Demand (Number of Attempts)' }
+            }
+        }
+    });
+</script>
+{% endblock %}

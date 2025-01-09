@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- This page shows :
+Admin can create new subject by clicking "Add New Subject" Button 
+It opens a form for creating new subject 
+existing subject shown in the admins dashboard 
+Route : @ add_subject -->
+
+<div class="container mt-5">
+    <h2 class="text-center">Add New Subject</h2>
+    <form action="{{ url_for('add_subject') }}" method="POST">
+        <div class="form-group">
+            <label for="name">Subject Name</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="form-group mt-3">
+            <label for="description">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="4"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Add Subject</button>
+    </form>
+</div>
+{% endblock %}

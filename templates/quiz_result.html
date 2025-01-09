@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Quiz Results</h1>
+    
+    <!-- Summary Statistics Button -->
+    <div class="mt-4">
+        <a href="{{ url_for('user_summary_statistics', user_id=user.id) }}" class="btn btn-info">Summary Statistics</a>
+    </div>
+
+    <!-- Quiz Details Section -->
+    <div class="mt-4">
+        <h3>Quiz: {{ quiz.name }}</h3>
+        <p><strong>User: </strong>{{ user.full_name }}</p>
+        <p><strong>Total Score: </strong>{{ quiz_response.total_scored }} / {{ quiz.total_marks }}</p>
+        
+        <div class="mt-4">
+            <h4>Your Answers:</h4>
+            <ul>
+                {% for question_id, user_answer in user_responses.items() %}
+                    <li>
+                        <strong>{{ quiz.questions[loop.index0].question_statement }}</strong><br>
+                        <strong>Your Answer: </strong>{{ user_answer }}<br>
+                        <strong>Correct Answer: </strong>{{ quiz.questions[loop.index0].correct_option }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

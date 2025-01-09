@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">{{ quiz.name }} - Take Quiz</h1>
+    <div class="text-center mt-4">
+        <p>{{ quiz.remarks }}</p>  <!-- Optional remarks/instructions for the quiz -->
+    </div>
+    
+    <!-- Timer Section -->
+    <div class="text-center">
+        <h4>Time Left: <span id="timer"></span></h4>
+    </div>
+
+    <form method="POST" action="{{ url_for('submit_quiz', quiz_id=quiz.id) }}">
+        <input type="hidden" name="user_id" value="{{ session.get('user_id') }}"> <!-- Include user_id if available -->
+        <div class="mt-4">
+            {% for question in questions %}
+            <div class="mb-4">
+                <h5>{{ question.question_statement }} 
+                    <span class="badge badge-info">{{ question.marks }} Marks</span>
+                </h5> <!-- Display question text with marks -->
+                
+                <div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="question_{{ question.id }}" id="option_1_{{ question.id }}" value="option1" required>
+                        <label class="form-check-label" for="option_1_{{ question.id }}">
+                            {{ question.option1 }}
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="question_{{ question.id }}" id="option_2_{{ question.id }}" value="option2">
+                        <label class="form-check-label" for="option_2_{{ question.id }}">
+                            {{ question.option2 }}
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="question_{{ question.id }}" id="option_3_{{ question.id }}" value="option3">
+                        <label class="form-check-label" for="option_3_{{ question.id }}">
+                            {{ question.option3 }}
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="question_{{ question.id }}" id="option_4_{{ question.id }}" value="option4">
+                        <label class="form-check-label" for="option_4_{{ question.id }}">
+                            {{ question.option4 }}
+                        </label>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Submit Quiz</button>
+    </form>
+    
+</div>
+
+<script>
+    // Extract time duration from the template
+    let timeDuration = "{{ quiz.time_duration }}"; // Example: "01:30" (hh:mm)
+    let [hours, minutes] = timeDuration.split(':').map(num => parseInt(num));
+    
+    // Convert to seconds for countdown
+    let totalSeconds = (hours * 3600) + (minutes * 60);
+
+    function updateTimer() {
+        let hoursLeft = Math.floor(totalSeconds / 3600);
+        let minutesLeft = Math.floor((totalSeconds % 3600) / 60);
+        let secondsLeft = totalSeconds % 60;
+
+        // Format the time as hh:mm:ss
+        document.getElementById('timer').textContent = 
+            `${hoursLeft.toString().padStart(2, '0')}:${minutesLeft.toString().padStart(2, '0')}:${secondsLeft.toString().padStart(2, '0')}`;
+
+        if (totalSeconds <= 0) {
+            clearInterval(timerInterval);
+            alert("Time's up! Submitting quiz...");
+            document.querySelector('form').submit();  // Automatically submit the form when time is up
+        } else {
+            totalSeconds--;
+        }
+    }
+
+    // Update timer every second
+    let timerInterval = setInterval(updateTimer, 1000);
+</script>
+
+{% endblock %}
