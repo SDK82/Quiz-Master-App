@@ -9,12 +9,15 @@ from sqlalchemy.orm import load_only
 app = Flask(__name__)
 app.config.from_object(config)
 
-
+# ==================================================================
+# Automatic Database create 
 db.init_app(app)
 
 with app.app_context():
     db.create_all()
     print("database created")
+
+# ____________________________________________________________-
 
 @app.route("/")
 def home():
@@ -251,7 +254,11 @@ def register():
 
         print(f"Received data: {username}, {full_name}, {qualification}, {dob}")  # Add print statement for debugging
 
-        new_user = User(username=username, password=password, full_name=full_name, qualification=qualification, dob=dob)
+        new_user = User(username=username, 
+                        password=password, 
+                        full_name=full_name, 
+                        qualification=qualification, 
+                        dob=dob)
         db.session.add(new_user)
         db.session.commit()
         print("User added successfully")

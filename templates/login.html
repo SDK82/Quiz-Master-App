@@ -2,7 +2,8 @@
 
 {% block content %}
 <div class="container-login">
-    <h2>Login</h2>
+    <h2 class="heading">Login to your account</h2>
+    <p style="color: black; text-align: center;">It's nice to see you again. Ready to practice quiz?</p>
     <form method="POST">
         <div class="mb-3">
             <label for="username" class="form-label">Username</label>
@@ -12,7 +13,7 @@
             <label for="password" class="form-label">Password</label>
             <input type="password" class="form-control" id="password" name="password" required>
         </div>
-        <button type="submit" class="btn btn-primary">Login</button>
+        <button type="submit" class="btn btn-info">Login</button>
     </form>
 </div>
 {% endblock %}

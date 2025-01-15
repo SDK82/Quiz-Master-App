@@ -5,15 +5,15 @@
  Each users details can be seen by admin on route 
  Route : @ user_quizzes -->
 
-
-<h1 class="text-center">All Users</h1>
+<!-- Heading : class heading  -->
+<h1 class="heading text-center ">All Users</h1>
 
 <div class="container mt-5">
     <!-- Search form -->
     <form method="GET" action="{{ url_for('view_all_users') }}" class="mb-4">
         <div class="input-group">
             <input type="text" name="search" class="form-control" style="width: 200px;" placeholder="Search by full name or username" value="{{ request.args.get('search', '') }}">
-            <button class="btn btn-primary" type="submit" style="margin-left: 10px;">Search</button>
+            <button class="btn btn-info" type="submit" style="margin-left: 10px;">Search</button>
         </div>
     </form>
     

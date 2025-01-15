@@ -8,19 +8,46 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <!-- Add Google Fonts in the head section -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-
     <!-- Link to the custom CSS file -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-
 </head>
-<body>
-    <!-- Background video -->
+<body class="{% if request.endpoint != 'home' %}bg-gradient-education{% endif %}">
+    {% if request.endpoint == 'home' %}
+    <!-- Background video for the home page -->
     <div class="background-overlay">
         <video autoplay muted loop>
             <source src="{{ url_for('static', filename='videos/3129957-uhd_3840_2160_25fps.mp4') }}" type="video/mp4">
             Your browser does not support the video tag.
         </video>
     </div>
+    {% endif %}
+
+    {% if request.endpoint not in ['home','login', 'register','take_quiz', 'admin_dashboard'] %}
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm sticky-top" style=" margin: 0 100px; height: 3rem; border-radius: 8px;">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="{{ url_for('home') }}">
+                <span >Quiz</span> Master
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+                    </li>
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_dashboard') }}">Admin's Dashboard</a>
+                    </li> -->
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-outline-danger ms-2" href="{{ url_for('admin_login') }}">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    {% endif %}
 
     <!-- Main content -->
     <div class="container">
