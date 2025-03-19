@@ -1,89 +1,193 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container mt-5">
-    <h1 class="text-center">{{ quiz.name }} - Take Quiz</h1>
-    <div class="text-center mt-4">
-        <p>{{ quiz.remarks }}</p>  <!-- Optional remarks/instructions for the quiz -->
+<div class="container py-4">
+    <!-- Header Section -->
+    <div class="text-center mb-4">
+        <h1 class="h3 fw-bold gradient-text mb-3">
+            <i class="fas fa-pencil-alt me-2"></i>{{ quiz.name }}
+        </h1>
+        <p class="text-muted mb-0 fs-6">{{ quiz.remarks }}</p>
     </div>
-    
+
     <!-- Timer Section -->
-    <div class="text-center">
-        <h4>Time Left: <span id="timer"></span></h4>
+    <div class="text-center mb-4">
+        <div class="d-inline-block gradient-border px-3 py-1 rounded-3 timer-container">
+            <h4 class="mb-0 text-white fs-6 fw-medium">
+                <i class="fas fa-clock me-1"></i>
+                <span id="timer" class="fw-bold">00:00:00</span>
+            </h4>
+        </div>
     </div>
 
     <form method="POST" action="{{ url_for('submit_quiz', quiz_id=quiz.id) }}">
-        <input type="hidden" name="user_id" value="{{ session.get('user_id') }}"> <!-- Include user_id if available -->
-        <div class="mt-4">
+        <input type="hidden" name="user_id" value="{{ session.get('user_id') }}">
+        
+        <div class="row g-3">
             {% for question in questions %}
-            <div class="mb-4">
-                <h5>{{ question.question_statement }} 
-                    <span class="badge badge-info">{{ question.marks }} Marks</span>
-                </h5> <!-- Display question text with marks -->
-                
-                <div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="question_{{ question.id }}" id="option_1_{{ question.id }}" value="option1" required>
-                        <label class="form-check-label" for="option_1_{{ question.id }}">
-                            {{ question.option1 }}
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="question_{{ question.id }}" id="option_2_{{ question.id }}" value="option2">
-                        <label class="form-check-label" for="option_2_{{ question.id }}">
-                            {{ question.option2 }}
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="question_{{ question.id }}" id="option_3_{{ question.id }}" value="option3">
-                        <label class="form-check-label" for="option_3_{{ question.id }}">
-                            {{ question.option3 }}
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="question_{{ question.id }}" id="option_4_{{ question.id }}" value="option4">
-                        <label class="form-check-label" for="option_4_{{ question.id }}">
-                            {{ question.option4 }}
-                        </label>
+            <div class="col-12">
+                <div class="card border-0 hover-scale gradient-card mb-2">
+                    <div class="card-body p-3">
+                        <div class="d-flex align-items-center gap-2 mb-3">
+                            <div class="gradient-icon-container p-2 rounded-3">
+                                <i class="fas fa-question fa-sm text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="h6 mb-1 fw-semibold text-dark">{{ question.question_statement }}</h3>
+                                <span class="badge gradient-badge py-1 px-2 fs-7">{{ question.marks }} Marks</span>
+                            </div>
+                        </div>
+
+                        <div class="ps-3">
+                            {% for option in [question.option1, question.option2, question.option3, question.option4] %}
+                            <div class="form-check mb-2">
+                                <input class="form-check-input custom-radio" 
+                                       type="radio" 
+                                       name="question_{{ question.id }}" 
+                                       id="option_{{ loop.index }}_{{ question.id }}" 
+                                       value="option{{ loop.index }}" 
+                                       required>
+                                <label class="form-check-label d-block p-2 rounded-2 option-hover fs-6" 
+                                       for="option_{{ loop.index }}_{{ question.id }}">
+                                    {{ option }}
+                                </label>
+                            </div>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>
             {% endfor %}
         </div>
-        
-        <button type="submit" class="btn btn-primary">Submit Quiz</button>
+
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-gradient-primary px-4 py-2">
+                Submit Quiz <i class="fas fa-paper-plane ms-2"></i>
+            </button>
+        </div>
     </form>
-    
 </div>
 
-<script>
-    // Extract time duration from the template
-    let timeDuration = "{{ quiz.time_duration }}"; // Example: "01:30" (hh:mm)
-    let [hours, minutes] = timeDuration.split(':').map(num => parseInt(num));
-    
-    // Convert to seconds for countdown
-    let totalSeconds = (hours * 3600) + (minutes * 60);
-
-    function updateTimer() {
-        let hoursLeft = Math.floor(totalSeconds / 3600);
-        let minutesLeft = Math.floor((totalSeconds % 3600) / 60);
-        let secondsLeft = totalSeconds % 60;
-
-        // Format the time as hh:mm:ss
-        document.getElementById('timer').textContent = 
-            `${hoursLeft.toString().padStart(2, '0')}:${minutesLeft.toString().padStart(2, '0')}:${secondsLeft.toString().padStart(2, '0')}`;
-
-        if (totalSeconds <= 0) {
-            clearInterval(timerInterval);
-            alert("Time's up! Submitting quiz...");
-            document.querySelector('form').submit();  // Automatically submit the form when time is up
-        } else {
-            totalSeconds--;
-        }
+<style>
+    :root {
+        --primary-gradient: linear-gradient(135deg, #2dd4bf 0%, #3b82f6 100%);
+        --secondary-gradient: linear-gradient(135deg, #22d3ee 0%, #38bdf8 100%);
+        --font-primary: 'Inter', sans-serif;
     }
 
-    // Update timer every second
-    let timerInterval = setInterval(updateTimer, 1000);
-</script>
+    body {
+        font-family: var(--font-primary);
+        line-height: 1.6;
+    }
 
+    .gradient-text {
+        background-image: var(--primary-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        letter-spacing: -0.5px;
+    }
+
+    .gradient-card {
+        background: white;
+        border: 1px solid rgba(0,0,0,0.08);
+        border-radius: 8px;
+        transition: transform 0.2s ease;
+    }
+
+    .gradient-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.08);
+    }
+
+    .gradient-icon-container {
+        background: var(--primary-gradient);
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .gradient-badge {
+        background: var(--secondary-gradient);
+        color: white;
+        font-weight: 500;
+        border-radius: 4px;
+    }
+
+    .btn-gradient-primary {
+        background: var(--primary-gradient);
+        border: none;
+        color: white;
+        border-radius: 6px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+
+    .btn-gradient-primary:hover {
+        opacity: 0.92;
+        transform: translateY(-1px);
+    }
+
+    .custom-radio {
+        width: 1.1em;
+        height: 1.1em;
+        margin-top: 0.15em;
+        border: 2px solid #e2e8f0;
+    }
+
+    .custom-radio:checked {
+        background: var(--secondary-gradient);
+        border-color: transparent;
+    }
+
+    .option-hover {
+        transition: all 0.15s ease;
+        border: 1px solid transparent;
+        border-radius: 4px;
+    }
+
+    .option-hover:hover {
+        background: rgba(59, 130, 246, 0.04);
+        border-color: rgba(59, 130, 246, 0.1);
+    }
+
+    .timer-container {
+        background: var(--primary-gradient);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 6px;
+    }
+
+    .fs-6 { font-size: 0.95rem; }
+    .fs-7 { font-size: 0.85rem; }
+    .fw-medium { font-weight: 500; }
+    .fw-semibold { font-weight: 600; }
+</style>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script>
+    // Clean timer implementation
+    const timeDuration = "{{ quiz.time_duration }}";
+    const [hours, minutes] = timeDuration.split(':').map(Number);
+    let totalSeconds = (hours * 3600) + (minutes * 60);
+    let timerInterval;
+
+    function formatTime(seconds) {
+        const hrs = Math.floor(seconds / 3600);
+        const mins = Math.floor((seconds % 3600) / 60);
+        const secs = seconds % 60;
+        return `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    function updateTimer() {
+        document.getElementById('timer').textContent = formatTime(totalSeconds);
+        totalSeconds > 0 ? totalSeconds-- : clearInterval(timerInterval);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        timerInterval = setInterval(updateTimer, 1000);
+    });
+</script>
 {% endblock %}

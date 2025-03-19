@@ -1,50 +1,182 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container mt-5">
-    <h1 class="text-center">User Summary Statistics</h1>
+<style>
+    .stats-container {
+        --primary-gradient: linear-gradient(45deg, #17a2b8, #007bff);
+        --secondary-gradient: linear-gradient(45deg, #007bff, #17a2b8);
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
 
-    <div class="mt-4">
-        <h3>Statistics for {{ user.full_name }}</h3>
-        <ul>
-            <li><strong>Total Attempts:</strong> {{ summary_stats.total_attempts }}</li>
-            <li><strong>Highest Score:</strong> {{ summary_stats.highest_score }}</li>
-            <li><strong>Average Score:</strong> {{ summary_stats.average_score }}</li>
-        </ul>
+    .metric-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        transition: transform 0.2s;
+    }
+
+    .metric-card:hover {
+        transform: translateY(-3px);
+    }
+
+    .chart-header {
+        border-left: 4px solid #007bff;
+        padding-left: 1rem;
+        margin: 2rem 0 1.5rem;
+    }
+
+    .gradient-text {
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .metric-icon {
+        width: 40px;
+        height: 40px;
+        background: var(--primary-gradient);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+    }
+</style>
+
+<div class="stats-container container py-5">
+    <!-- Header -->
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold gradient-text mb-3">User Performance Analytics</h1>
+        <div class="d-flex align-items-center gap-2 justify-content-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#007bff" class="bi bi-person-circle" viewBox="0 0 16 16">
+                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+            </svg>
+            <h2 class="h4 text-muted mb-0">{{ user.full_name }}</h2>
+        </div>
     </div>
 
-    <!-- Chart for Visualizing Scores -->
-    <div class="mt-5">
-        <h4>Score Distribution</h4>
-        <canvas id="scoreChart"></canvas>
+    <!-- Metrics Grid -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="metric-card">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="metric-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bar-chart" viewBox="0 0 16 16">
+                            <path d="M4 11H2v3h2zm5-4H7v7h2zm5-5h-2v12h2zm-2.5 1.5h-1v1h1zm-3 0h-1v1h1zm-3 0h-1v1h1zm-3 0h-1v1h1z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="text-muted small">Total Attempts</div>
+                        <div class="h4 mb-0">{{ summary_stats.total_attempts }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="metric-card">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="metric-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trophy" viewBox="0 0 16 16">
+                            <path d="M2.5.5A.5.5 0 0 1 3 0h10a.5.5 0 0 1 .5.5q0 .807-.034 1.536a3 3 0 1 1-1.133 5.89c-.79 1.865-1.878 2.777-2.833 3.011v2.173l1.425.356c.194.048.377.135.537.255L13.3 15.1a.5.5 0 0 1-.3.9H3a.5.5 0 0 1-.3-.9l1.838-1.379c.16-.12.343-.207.537-.255L6.5 13.11v-2.173c-.955-.234-2.043-1.146-2.833-3.012a3 3 0 1 1-1.132-5.89A33 33 0 0 1 2.5.5m.097 1.54a2 2 0 0 0 .72 3.935c-.333-1.05-.588-2.346-.72-3.935m10.163 0a32 32 0 0 1-.72 3.935 2 2 0 0 0 .72-3.935"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="text-muted small">Highest Score</div>
+                        <div class="h4 mb-0">{{ summary_stats.highest_score }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="metric-card">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="metric-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-graph-up" viewBox="0 0 16 16">
+                            <path d="M0 0h1v16H0zm1 1h1v10H1zm2 0h1v9H3zm2 0h1v5H5zm2 0h1v3H7zm2 0h1v1H9zm2.5.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zM12 5.5V7h1.5a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="text-muted small">Average Score</div>
+                        <div class="h4 mb-0">{{ summary_stats.average_score }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart Section -->
+    <div class="card border-0 shadow-lg">
+        <div class="card-header bg-white d-flex align-items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#007bff" class="bi bi-bar-chart-line" viewBox="0 0 16 16">
+                <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1zm1 12h2V2h-2zm-3 0V7H7v7zm-4 0V2H2v12z"/>
+            </svg>
+            <h3 class="h5 mb-0">Score Distribution</h3>
+        </div>
+        <div class="card-body">
+            <canvas id="scoreChart"></canvas>
+        </div>
     </div>
 </div>
 
 <!-- Include Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    // Chart.js configuration
+    // Chart.js configuration with modern styling
     const ctx = document.getElementById('scoreChart').getContext('2d');
     const scoreChart = new Chart(ctx, {
-        type: 'bar', // Type of chart (bar)
+        type: 'bar',
         data: {
-            labels: {{ labels|safe }}, // Last 3 Quiz Names
+            labels: {{ labels|safe }},
             datasets: [{
                 label: 'Scores',
-                data: {{ scores|safe }}, // Scores for the last 3 quizzes
-                backgroundColor: 'rgba(54, 162, 235, 0.5)', // Bar color
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
+                data: {{ scores|safe }},
+                backgroundColor: 'rgba(23, 162, 184, 0.2)',
+                borderColor: '#17a2b8',
+                borderWidth: 2,
+                borderRadius: 8,
+                hoverBackgroundColor: 'rgba(0, 123, 255, 0.3)'
             }]
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false,
             plugins: {
-                legend: { display: true },
-                title: { display: true, text: 'User Score Distribution (Last 3 Quizzes)' }
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    backgroundColor: '#ffffff',
+                    titleColor: '#2d3748',
+                    bodyColor: '#4a5568',
+                    borderColor: '#e2e8f0',
+                    borderWidth: 1,
+                    padding: 12,
+                    boxShadow: '0 2px 6px rgba(0,0,0,0.05)'
+                }
             },
             scales: {
-                y: { beginAtZero: true }
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: '#e2e8f0'
+                    },
+                    ticks: {
+                        color: '#718096'
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        color: '#718096'
+                    }
+                }
             }
         }
     });

@@ -1,57 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Quiz Platform</title>
+    <title>Quiz Master</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <!-- Add Google Fonts in the head section -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    <!-- Link to the custom CSS file -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body class="{% if request.endpoint != 'home' %}bg-gradient-education{% endif %}">
-    {% if request.endpoint == 'home' %}
-    <!-- Background video for the home page -->
-    <div class="background-overlay">
-        <video autoplay muted loop>
-            <source src="{{ url_for('static', filename='videos/3129957-uhd_3840_2160_25fps.mp4') }}" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-    </div>
-    {% endif %}
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(45deg, #17a2b8, #007bff);
+            --secondary-gradient: linear-gradient(45deg, #007bff, #17a2b8);
+        }
 
-    {% if request.endpoint not in ['home','login', 'register','take_quiz', 'admin_dashboard'] %}
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm sticky-top" style=" margin: 0 100px; height: 3rem; border-radius: 8px;">
-        <div class="container-fluid">
-            <a class="navbar-brand fw-bold" href="{{ url_for('home') }}">
-                <span >Quiz</span> Master
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        .gradient-bg {
+            background: var(--primary-gradient);
+        }
+
+        /* Smaller navbar height */
+        .navbar {
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.95) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.navbar-brand {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.25rem;
+    font-weight: 900;
+    color: teal !important;
+}
+
+.navbar-nav .nav-link {
+    font-size: 0.95rem;
+    color: teal !important;
+    margin: 0 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    background: rgba(0, 123, 255, 0.1);
+    color: #007bff !important;
+}
+
+.navbar-nav .nav-link i {
+    margin-right: 0.5rem;
+}
+
+        /* Professional font */
+        body {
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .logo_base {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #17a2b8, #007bff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: transform 0.3s ease;
+        }
+
+        .logo_base:hover {
+            transform: rotate(-5deg) scale(1.05);
+        }
+
+        footer {
+            background: var(--primary-gradient);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .floating-shapes div {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+            100% { transform: translateY(0) rotate(360deg); }
+        }
+
+        .cta-button {
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            background: var(--secondary-gradient);
+            color: #ffffff !important; /* White text for contrast */
+            border: none;
+        }
+
+        .cta-button:hover {
+            color: #000 !important;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,123,255,0.3);
+            background: linear-gradient(45deg, #007bff, #17a2b8); /* Keep gradient effect */
+        }
+    </style>
+</head>
+<body class="{% if request.endpoint == 'home' %}gradient-bg{% else %}bg-light{% endif %}">
+
+    {% if request.endpoint not in ['home','login', 'register','take_quiz', 'admin_login', 'admin_dashboard'] %}
+    <!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm sticky-top" style="height: 3.5rem; border-radius: 8px;">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('home') }}">
+            <span style="font-family: 'Courier New', Courier, monospace; font-size: 1.25rem; font-weight: 900; color: teal !important;">
+                QuizMaster
+            </span>
+        </a>
+        
+        <div class="d-flex align-items-center">
+            <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+                        <a class="nav-link" href="{{ url_for('home') }}">
+                            <i class="uil uil-estate"></i> Home
+                        </a>
                     </li>
-                    <!-- <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('admin_dashboard') }}">Admin's Dashboard</a>
-                    </li> -->
+                    
                     <li class="nav-item">
-                        <a class="nav-link btn btn-outline-danger ms-2" href="{{ url_for('admin_login') }}">Logout</a>
+                        <a class="nav-link" href="{{ url_for('admin_login') }}">
+                            <i class="uil uil-sign-out-alt"></i> Logout
+                        </a>
                     </li>
                 </ul>
             </div>
         </div>
-    </nav>
+    </div>
+</nav>
+    
     {% endif %}
 
     <!-- Main content -->
-    <div class="container">
+    <main>
         {% block content %}{% endblock %}
-    </div>
+    </main>
+
+    <!-- Modern Footer -->
+    <footer class="py-5 mt-5">
+        <div class="floating-shapes">
+            <div style="width: 150px; height: 150px; top: 10%; left: 20%"></div>
+            <div style="width: 100px; height: 100px; top: 60%; right: 15%"></div>
+        </div>
+        
+        <div class="container position-relative z-1">
+            <div class="row g-4">
+                <div class="col-lg-4 text-center text-lg-start">
+                    <h3 class="logo_base mb-3">Quiz Master</h3>
+                    <p class="opacity-75">Empowering learners through interactive challenges</p>
+                </div>
+                
+                <div class="col-lg-4">
+                    <h5 class="text-white mb-3">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="{{ url_for('home') }}" class="text-white text-decoration-none hover-scale">Home</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none hover-scale">About Us</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none hover-scale">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-4">
+                    <h5 class="text-white mb-3">Connect With Us</h5>
+                    <div class="d-flex justify-content-center justify-content-lg-start gap-3">
+                        <a href="#" class="text-white fs-5 hover-scale"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white fs-5 hover-scale"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="text-white fs-5 hover-scale"><i class="fab fa-github"></i></a>
+                        <a href="#" class="text-white fs-5 hover-scale"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-5 pt-3 border-top border-white-10">
+                <small class="opacity-75">&copy; 2024 Quiz Master. All rights reserved.</small>
+            </div>
+        </div>
+    </footer>
+
 </body>
 </html>

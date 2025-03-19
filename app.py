@@ -15,6 +15,11 @@ db.init_app(app)
 
 with app.app_context():
     db.create_all()
+    # Add admin user to the Admin table
+    if not Admin.query.first():  # Check if admin already exists
+        admin = Admin(username='admin', password='admin123', full_name='Admin User')
+        db.session.add(admin)
+        db.session.commit()
     print("database created")
 
 # ____________________________________________________________-

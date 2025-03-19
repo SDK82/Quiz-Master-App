@@ -2,18 +2,73 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h1 class="text-center">Edit Chapter: {{ chapter.name }}</h1>
-    
-    <form method="POST">
-        <div class="form-group">
-            <label for="name">Chapter Name</label>
-            <input type="text" class="form-control" id="name" name="name" value="{{ chapter.name }}" required>
+    <div class="card edit-chapter-card">
+        <div class="card-header">
+            <h1 class="admin-title">Edit Chapter: {{ chapter.name }}</h1>
         </div>
-        <div class="form-group mt-3">
-            <label for="description">Chapter Description</label>
-            <textarea class="form-control" id="description" name="description">{{ chapter.description }}</textarea>
+        <div class="card-body">
+            <form method="POST">
+                <div class="form-group mb-3">
+                    <label for="name">Chapter Name</label>
+                    <input type="text" class="form-control" id="name" name="name" value="{{ chapter.name }}" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="description">Chapter Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="3">{{ chapter.description }}</textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
         </div>
-        <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
-    </form>
+    </div>
 </div>
+
+<!-- Style Section -->
+<style>
+/* CSS Variables */
+:root {
+    --primary-color: #195c7d;
+    --secondary-color: #00c6ff;
+    --hover-dark: #12455f;
+    --border-color: #e3f2fd;
+    --text-dark: #333;
+    --text-light: #777;
+}
+
+/* Card Styles */
+.edit-chapter-card {
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+
+.edit-chapter-card .card-header {
+    background: #f9f9f9;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    text-align: center;
+}
+
+.edit-chapter-card .card-body {
+    padding: 1.5rem;
+}
+
+/* Form Control */
+.form-control {
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+}
+
+/* Button Styles */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #fff;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--hover-dark);
+    border-color: var(--hover-dark);
+}
+</style>
 {% endblock %}

@@ -4,33 +4,71 @@
 <!-- This page shows the users details when admin click on specific users Action 
  Route : @ user_quizzes-->
 
-
-<h1 class="text-center heading">{{ user.full_name }}'s Quizzes</h1>
+<h1 class="text-center heading mb-4">{{ user.full_name }}'s Quizzes</h1>
 
 <div class="container mt-5">
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Quiz Name</th>
-                <th>Date Attempted</th>
-                <th>Score</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% if quizzes_with_results %}
-                {% for quiz_result in quizzes_with_results %}
-                <tr>
-                    <td>{{ quiz_result.quiz_name }}</td>
-                    <td>{{ quiz_result.date }}</td>
-                    <td>{{ quiz_result.score }}</td>
-                </tr>
-                {% endfor %}
-            {% else %}
-                <tr>
-                    <td colspan="3" class="text-center">No quizzes attempted yet.</td>
-                </tr>
-            {% endif %}
-        </tbody>
-    </table>
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <table class="table table-hover table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Quiz Name</th>
+                        <th scope="col">Date Attempted</th>
+                        <th scope="col">Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if quizzes_with_results %}
+                        {% for quiz_result in quizzes_with_results %}
+                        <tr>
+                            <td>{{ quiz_result.quiz_name }}</td>
+                            <td>{{ quiz_result.date }}</td>
+                            <td>{{ quiz_result.score }}</td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="3" class="text-center text-muted">No quizzes attempted yet.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
+
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .heading {
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: #2c3e50;
+    }
+    .card {
+        border: none;
+        border-radius: 10px;
+    }
+    .table {
+        margin-bottom: 0;
+    }
+    .table thead th {
+        background-color: #34495e;
+        color: #ffffff;
+        border: none;
+    }
+    .table tbody tr {
+        transition: background-color 0.3s ease;
+    }
+    .table tbody tr:hover {
+        background-color: #f8f9fa;
+    }
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: rgba(52, 73, 94, 0.05);
+    }
+    .text-muted {
+        color: #6c757d !important;
+    }
+</style>
 {% endblock %}

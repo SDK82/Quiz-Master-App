@@ -1,0 +1,88 @@
+openapi: 3.0.0
+info:
+  title: Quiz Master App API
+  description: API for managing users, quizzes, subjects, and responses.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:5000
+    description: Local development server
+
+paths:
+  /register:
+    post:
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                full_name:
+                  type: string
+                role:
+                  type: string
+                  enum: [admin, user]
+      responses:
+        '201':
+          description: User registered successfully
+        '400':
+          description: Bad request
+
+  /login:
+    post:
+      summary: Authenticate user and return session token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Login successful
+        '401':
+          description: Unauthorized
+
+  /subjects:
+    get:
+      summary: Get all subjects
+      responses:
+        '200':
+          description: List of all subjects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+
+  /quiz/{id}:
+    get:
+      summary: Get quiz details by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Quiz details retrieved
+        '404':
+          description: Quiz not found

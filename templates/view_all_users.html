@@ -5,43 +5,132 @@
  Each users details can be seen by admin on route 
  Route : @ user_quizzes -->
 
-<!-- Heading : class heading  -->
-<h1 class="heading text-center ">All Users</h1>
+<!-- Heading -->
+<div class="container py-3"> <!-- Reduced padding -->
+    <div class="text-center mb-3"> <!-- Reduced margin -->
+        <h1 class="fw-bold gradient-text heading-size animate-text">All Users Details 👋</h1>
+        <p class="lead text-dark-50 mt-2 fs-5" style="color: #195c7d;">Manage subjects, track progress, and oversee the platform</p>
+    </div>
+</div>
 
-<div class="container mt-5">
+<div class="container mt-3"> <!-- Reduced margin -->
     <!-- Search form -->
-    <form method="GET" action="{{ url_for('view_all_users') }}" class="mb-4">
+    <form method="GET" action="{{ url_for('view_all_users') }}" class="mb-3"> <!-- Reduced margin -->
         <div class="input-group">
-            <input type="text" name="search" class="form-control" style="width: 200px;" placeholder="Search by full name or username" value="{{ request.args.get('search', '') }}">
-            <button class="btn btn-info" type="submit" style="margin-left: 10px;">Search</button>
+            <input type="text" name="search" class="form-control rounded-pill" placeholder="Search by full name or username..." value="{{ request.args.get('search', '') }}">
+            <button class="btn btn-info rounded-pill ms-2" type="submit">Search</button>
         </div>
     </form>
-    
 
     <!-- Users Table -->
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Username (Email)</th>
-                <th>Full Name</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for user in users %}
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.username }}</td>
-                <td>{{ user.full_name }}</td>
-                <td><a href="{{ url_for('user_quizzes', user_id=user.id) }}" class="btn btn-info">View Quizzes</a></td>
-            </tr>
-            {% else %}
-            <tr>
-                <td colspan="4" class="text-center">No users found</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover shadow-sm">
+            <thead class="table-head">
+                <tr>
+                    <th>ID</th>
+                    <th>Username (Email)</th>
+                    <th>Full Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.full_name }}</td>
+                    <td>
+                        <a href="{{ url_for('user_quizzes', user_id=user.id) }}" class="btn btn-gradient">View Quizzes</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4" class="text-center">No users found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
+
+<style>
+    /* Gradient text for heading */
+    .gradient-text {
+        background-image: linear-gradient(45deg, #195c7d, #00c6ff);
+        background-size: 200% auto;
+        color: transparent;
+        -webkit-background-clip: text;
+        background-clip: text;
+        animation: gradientShift 3s ease-in-out infinite;
+    }
+
+    @keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    /* Table styling */
+    .table {
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid #e0e0e0; /* Light border for a clean look */
+    }
+
+    .table-head {
+        background: linear-gradient(45deg, #195c7d, #00c6ff);
+        color: white;
+    }
+
+    .table th, .table td {
+        padding: 12px;
+        text-align: center;
+        border-color: #e0e0e0; /* Light border for cells */
+    }
+
+    .table tbody tr {
+        transition: background-color 0.3s ease;
+    }
+
+    .table tbody tr:hover {
+        background-color: rgba(0, 123, 255, 0.05); /* Subtle hover effect */
+    }
+
+    /* Button styling */
+    .btn-gradient {
+        background-image: linear-gradient(45deg, #00bcd4, #009688);
+        border: none;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 8px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .btn-gradient:hover {
+        background-image: linear-gradient(45deg, #009688, #00bcd4);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Search bar styling */
+    .form-control {
+        border-radius: 50rem !important;
+        border: 1px solid #e0e0e0; /* Light border for input */
+    }
+
+    .btn-info {
+        background-image: linear-gradient(45deg, #00bcd4, #009688);
+        border: none;
+        color: white;
+    }
+
+    .btn-info:hover {
+        background-image: linear-gradient(45deg, #009688, #00bcd4);
+    }
+
+    /* Container adjustments */
+    .container {
+        max-width: 1200px; /* Limit container width for better readability */
+    }
+</style>
 {% endblock %}

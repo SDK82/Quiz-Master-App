@@ -1,18 +1,119 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container-login">
-    <h2 class="heading">Login as Admin</h2>
-    <form method="POST">
-        <div class="mb-3">
-            <label for="username" class="form-label">Username</label>
-            <input type="text" class="form-control" id="username" name="username" required>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="glass-effect p-4 p-sm-5 rounded-4 shadow-lg">
+                <!-- Header Section -->
+                <div class="text-center mb-4">
+                    <h1 class="display-6 fw-bold gradient-text mb-2">
+                        Admin Login 🔐
+                    </h1>
+                    <p class="text-muted mb-0">Access the admin dashboard</p>
+                </div>
+
+                <!-- Login Form -->
+                <form method="POST" class="needs-validation" novalidate>
+                    <!-- Username Input -->
+                    <div class="form-group mb-3">
+                        <label for="username" class="form-label small text-uppercase text-secondary fw-bold mb-2">
+                            Username
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="fas fa-user fa-sm"></i>
+                            </span>
+                            <input type="text" 
+                                   class="form-control rounded-pill" 
+                                   id="username" 
+                                   name="username" 
+                                   placeholder="Enter username"
+                                   required>
+                        </div>
+                    </div>
+
+                    <!-- Password Input -->
+                    <div class="form-group mb-4">
+                        <label for="password" class="form-label small text-uppercase text-secondary fw-bold mb-2">
+                            Password
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="fas fa-lock fa-sm"></i>
+                            </span>
+                            <input type="password" 
+                                   class="form-control rounded-pill" 
+                                   id="password" 
+                                   name="password" 
+                                   placeholder="Enter password"
+                                   required>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-info w-100 rounded-pill py-2 fw-bold hover-scale">
+                        Login
+                        <i class="fas fa-arrow-right ms-2"></i>
+                    </button>
+                </form>
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password" name="password" required>
-        </div>
-        <button type="submit" class="btn btn-info">Login</button>
-    </form>
+    </div>
 </div>
+
+<style>
+    .gradient-text {
+        background: linear-gradient(45deg, #17a2b8, #007bff);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        font-size: 2rem ;
+    }
+    
+    .input-group-text {
+        background: transparent;
+        border: none;
+        padding: 0 1.25rem;
+    }
+    
+    .form-control {
+        border-left: none !important;
+        padding: 0.75rem 1rem;
+        font-size: 0.95rem;
+    }
+    
+    .form-control::placeholder {
+        color: #a0aec0 !important;
+        font-size: 0.9rem;
+        opacity: 0.8;
+    }
+    
+    .form-control:focus {
+        box-shadow: none !important;
+        border-color: #cbd5e0;
+    }
+    
+    .rounded-pill {
+        border-radius: 50rem !important;
+    }
+    
+    .fa-sm {
+        font-size: 0.9rem;
+    }
+
+    .glass-effect {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .hover-scale {
+        transition: transform 0.2s ease;
+    }
+
+    .hover-scale:hover {
+        transform: scale(1.05);
+    }
+</style>
 {% endblock %}

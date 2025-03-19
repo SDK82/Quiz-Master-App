@@ -2,22 +2,149 @@
 
 {% block content %}
 
-<!-- Video Background -->
-<div class="background-container">
-    <video autoplay muted loop>
-        <source src="{{ url_for('static', filename='videos/background-video.mp4') }}" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-</div>
+<style>
+    :root {
+        --primary-gradient: linear-gradient(135deg, #2dd4bf 0%, #3b82f6 100%);  /* Teal to Blue gradient */
+        --secondary-gradient: linear-gradient(135deg, #22d3ee 0%, #38bdf8 100%);  /* Light Teal to Blue gradient */
+    }
+
+    .hero-section {
+        min-height: 100vh;
+        background: var(--primary-gradient);
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Keep the rest of the CSS the same */
+    .floating-shapes div {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.1);
+        animation: float 20s infinite linear;
+    }
+
+    @keyframes float {
+        0% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-20px) rotate(180deg); }
+        100% { transform: translateY(0) rotate(360deg); }
+    }
+
+    .logo_home {
+        font-size: 2rem; /* Larger size for better readability */
+        font-weight: 900;
+        color: white; 
+        display: inline-block;
+        text-decoration: none; /* Remove any link underlines */
+        padding: 0.3rem 0.6rem;
+    }
+
+    .logo_home:hover { 
+        transform: rotate(-5deg) scale(1.1);
+        text-shadow: 0 2px 2px white; /* Enhanced shadow on hover */
+    }
+
+    .cta-button {
+        padding: 1rem 2rem;
+        border-radius: 30px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        border: none;
+        background: var(--secondary-gradient);
+        color: white;
+        text-decoration:none !important;
+    }
+
+    .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .hero-title {
+        font-size: 2.3rem;
+        font-weight: 900 ;
+        background: linear-gradient(45deg, #213472, #28507e);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 1.5rem;
+        animation: slideUp 1s ease;
+    }
+
+    @keyframes slideUp {
+        from { transform: translateY(20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+
+    .feature-card {
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 2rem;
+        margin: 1rem;
+        transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-10px);
+    }
+</style>
 
 <!-- Main Content -->
-<div class="content-container">
-    <h1>Welcome to the Quiz Platform</h1>
-    <p class="quote">"Knowledge is power. The more you learn, the more you earn."</p>
-    <div class="mt-4">
-        <a href="{{ url_for('login') }}" class="btn btn-info">Login</a>
-        <a href="{{ url_for('register') }}" class="btn btn-info">Register</a>
-        <a href="{{ url_for('admin_login') }}" class="btn btn-info">Login as Admin</a>
+<div class="hero-section d-flex align-items-center text-center text-white">
+    <!-- Floating Background Shapes -->
+    <div class="floating-shapes">
+        <div style="width: 200px; height: 200px; top: 10%; left: 20%"></div>
+        <div style="width: 150px; height: 150px; top: 60%; right: 15%"></div>
+        <div style="width: 100px; height: 100px; bottom: 20%; left: 50%"></div>
+    </div>
+
+    <div class="container hero-content">
+        <!-- Animated Logo -->
+        <div class="mb-5">
+            <a class="logo_home" href="{{ url_for('home') }}">
+                <span>Quiz</span> Master
+            </a>
+        </div>
+
+        <!-- Main Heading -->
+        <h1 class="hero-title mb-4">
+            <i>Challenge Your Knowledge Learn & Grow<br></i>
+        </h1>
+
+        <!-- Feature Cards -->
+        <div class="row justify-content-center mb-5">
+            <div class="col-md-3 feature-card">
+                <h3>📚 Diverse Topics</h3>
+                <p>Explore various subjects from tech to literature</p>
+            </div>
+            <div class="col-md-3 feature-card">
+                <h3>🏆 Leaderboards</h3>
+                <p>Compete with others and track your progress</p>
+            </div>
+            <div class="col-md-3 feature-card">
+                <h3>🎯 Smart Quizzes</h3>
+                <p>AI-powered personalized learning paths</p>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <a href="{{ url_for('login') }}" class="cta-button">
+                Get Started ➔
+            </a>
+            <a href="{{ url_for('register') }}" class="cta-button">
+                Create Account ✨
+            </a>
+            <a href="{{ url_for('admin_login') }}" class="cta-button">
+                Admin Portal 🔒
+            </a>
+        </div>
     </div>
 </div>
 
