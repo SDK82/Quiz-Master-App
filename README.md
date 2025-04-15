@@ -1,1 +1,2 @@
 # Quiz Master APP 
+Quiz Master App is an interactive and dynamic platform that bridges educational institutions and learners, fostering seamless interactions for mutual growth. Institutions can effortlessly create subjects, chapters, and quizzes while tracking performance and engagement, ensuring a tailored educational experience. Learners, in turn, can select their preferred subjects and quizzes, monitor their scores, and track their progress to achieve academic success.
